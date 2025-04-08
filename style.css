@@ -1,0 +1,613 @@
+/* Basic Reset & Font */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F8F7F2; /* Light beige background */
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* Fixed Helix Background */
+.fixed-helix-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+    background: #F8F7F2;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Genomics Grid */
+.genomics-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(30, 96, 66, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 96, 66, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* DNA Viewport */
+.dna-viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    perspective-origin: center center;
+}
+
+/* DNA Helix Structure */
+#dna-helix-structure {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100px;
+    height: var(--helix-visual-height, 3000px);
+    transform-style: preserve-3d;
+    transform: translateX(-50%);
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+}
+
+/* DNA Components */
+.dna-rung {
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    left: 0;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+}
+
+.strand-point {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #2962FF;
+    top: 50%;
+    transform: translateY(-50%) scale(1);
+    box-shadow: 0 0 10px rgba(41, 98, 255, 0.5);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.3s ease;
+}
+
+.dna-rung:hover .strand-point {
+    transform: translateY(-50%) scale(1.3);
+    box-shadow: 0 0 15px rgba(41, 98, 255, 0.8);
+}
+
+.strand-a { left: -5px; }
+.strand-b { right: -5px; background-color: #1E88E5; }
+
+.base-pair {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 6px;
+    background-color: #64B5F6;
+    top: 50%;
+    transform: translateY(-50%) scaleX(1);
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(100, 181, 246, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center center;
+}
+
+.dna-rung:hover .base-pair {
+    transform: translateY(-50%) scaleX(1.1);
+    box-shadow: 0 0 12px rgba(100, 181, 246, 0.8);
+}
+
+/* DNA Particles */
+.dna-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: rgba(41, 98, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+
+/* Main Content Layout */
+.content-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.main-layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Left Panel */
+.left-panel {
+    flex-basis: 70%;
+    padding: 40px 60px;
+    background: #F8F7F2;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Keep relative for potential absolute children */
+}
+
+/* Navigation */
+nav {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 35px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #1E6042;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #1E6042;
+    transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Content Styling */
+.left-panel .content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-panel h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, #1E6042 0%, #2962FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+}
+
+/* === SVG Vine Button Effect === */
+.cta-button.vine-button { /* Added .vine-button class for specificity */
+    display: inline-block; /* Allows width/height to influence layout */
+    background: linear-gradient(45deg, #1E6042 0%, #15422d 100%);
+    color: #ffffff;
+    padding: 15px 40px; /* Adjust padding as needed */
+    border-radius: 8px; /* Slightly more rounded */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    align-self: flex-start;
+    position: relative; /* Crucial for absolute positioning SVGs */
+    overflow: visible;  /* Allow SVGs outside the button bounds */
+    z-index: 1;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.cta-button.vine-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(30, 96, 66, 0.3);
+}
+
+
+.left-panel p {
+    font-size: 1.1rem;
+    max-width: 450px;
+    color: #555;
+}
+
+/* Right Panel Spacer */
+.right-panel-spacer {
+    flex-basis: 30%;
+}
+
+/* Extra Content */
+.extra-content {
+    width: 70%;
+    padding: 60px;
+    background: #F8F7F2;
+    position: relative;
+}
+
+.extra-content h2 {
+    font-size: 2.5rem;
+    color: #1E6042;
+    margin-bottom: 30px;
+}
+
+.feature-list {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+.feature-list li {
+    list-style-type: none;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px;
+}
+
+.feature-list li::before {
+    content: '🌱';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+/* Info Cards */
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.card {
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 65%, rgba(30, 96, 66, 0.1) 65.5%);
+    transform: scale(2) translateX(-75%) translateY(-75%) rotate(-28deg);
+    transition: transform 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover::before {
+    transform: scale(2) translateX(0%) translateY(0%) rotate(-28deg);
+}
+
+.card h3 {
+    color: #1E6042;
+    margin-bottom: 10px;
+    position: relative; /* Keep relative for z-index stacking if needed */
+}
+
+.card p {
+    position: relative; /* Ensure text is above ::before */
+}
+
+
+/* Scroll Animations */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger card animations */
+.info-cards .card.is-visible:nth-child(1) { transition-delay: 0.1s; }
+.info-cards .card.is-visible:nth-child(2) { transition-delay: 0.2s; }
+.info-cards .card.is-visible:nth-child(3) { transition-delay: 0.3s; }
+
+.left-panel .content.is-visible { transition-delay: 0.2s; }
+.extra-content.is-visible { transition-delay: 0.1s; }
+
+
+/* === Add styles specific to new pages/elements === */
+
+/* Active Navigation Link */
+nav ul li a.active {
+    color: #1E6042; /* Make active link stand out */
+}
+nav ul li a.active::after {
+    width: 100%; /* Underline the active link */
+    background: #1E6042;
+}
+
+/* Generic Content Area Styling within Left Panel */
+.page-content {
+    margin-top: 40px; /* Add some space below nav */
+    width: 100%; /* Ensure it takes available width */
+}
+
+.page-content h1 {
+     font-size: 3.5rem; /* Slightly smaller than main page H1 */
+     font-weight: 700;
+     line-height: 1.1;
+     background: linear-gradient(45deg, #1E6042 0%, #2962FF 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     margin-bottom: 25px;
+}
+
+.page-content h2 {
+    font-size: 2.2rem; /* Consistent H2 style */
+    color: #1E6042; /* Theme color */
+    margin-top: 40px; /* Space above sections */
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(30, 96, 66, 0.2); /* Subtle separator */
+    padding-bottom: 10px;
+}
+
+.page-content p {
+    font-size: 1.05rem; /* Standard paragraph size */
+    color: #555;
+    margin-bottom: 15px;
+    max-width: 650px; /* Control text width for readability */
+}
+
+.content-section {
+    margin-bottom: 40px; /* Space between logical sections */
+}
+
+
+/* Explore Page Specific Styles */
+.blog-post, .publication-entry {
+    margin-bottom: 25px; /* Space between entries */
+    /* Inherits .card styles - padding, background, border-radius, shadow */
+}
+
+.post-meta {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 10px;
+    color: #1E6042;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: #15422d;
+}
+
+/* About Page - Team Grid Styles */
+.team-grid {
+    display: grid;
+    /* Adjust columns for responsiveness */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* Spacing between cards */
+    margin-top: 30px;
+}
+
+.team-card {
+     /* Inherits .card styles */
+     text-align: center; /* Center content within the card */
+     padding: 30px 20px; /* Adjust padding */
+}
+
+.team-photo {
+    width: 120px; /* Control photo size */
+    height: 120px;
+    border-radius: 50%; /* Circular photos */
+    object-fit: cover; /* Ensure photo covers the area well */
+    margin-bottom: 15px;
+    border: 4px solid #e0e0e0; /* Simple border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.team-card h3 {
+    color: #1E6042; /* Theme color */
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+}
+
+.team-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+.team-affiliation {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.team-details {
+    font-size: 0.95rem;
+    color: #555;
+    text-align: left; /* Left-align details for readability */
+    margin-bottom: 0; /* Reset bottom margin if it's the last element */
+}
+
+.contact-link { /* Optional link styling within card */
+    display: block;
+    margin-top: 15px;
+    color: #2962FF;
+    text-decoration: none;
+    font-weight: 500;
+}
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Contact Page Specific Styles */
+.contact-person {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee; /* Separator */
+}
+.contact-person:last-child {
+    border-bottom: none;
+}
+
+.contact-person h3 {
+    color: #1E6042;
+    margin-bottom: 8px;
+}
+
+.contact-person p {
+    margin-bottom: 5px; /* Tighter spacing for details */
+    font-size: 1rem;
+}
+
+.contact-person a {
+    color: #2962FF;
+    text-decoration: none;
+}
+.contact-person a:hover {
+    text-decoration: underline;
+}
+
+.map-embed { /* Style for map container */
+    width: 100%;
+    max-width: 600px; /* Limit map width */
+    height: 400px; /* Adjust height as needed */
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    overflow: hidden; /* Hide potential overflows */
+}
+.map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+
+/* --- Optional: Helix Color Change per Page --- */
+/* Uncomment and define colors if you want this effect */
+
+body.page-home .strand-point { background-color: #2962FF; }
+body.page-home .strand-point.strand-b { background-color: #1E88E5; }
+body.page-home .base-pair { background-color: #64B5F6; }
+
+body.page-explore .strand-point { background-color: #00897B; } 
+body.page-explore .strand-point.strand-b { background-color: #00695C; } 
+body.page-explore .base-pair { background-color: #80CBC4; } 
+
+body.page-about .strand-point { background-color: #F9A825; } 
+body.page-about .strand-point.strand-b { background-color: #F57F17; } 
+body.page-about .base-pair { background-color: #FFEE58; } 
+
+body.page-contact .strand-point { background-color: #5E35B1; } 
+body.page-contact .strand-point.strand-b { background-color: #4527A0; } 
+body.page-contact .base-pair { background-color: #B39DDB; } 
+
+
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .fixed-helix-background {
+        width: 100%;
+        height: 40vh;
+        position: relative; /* Unfix for mobile */
+        background: #F8F7F2;
+        order: -1; /* Display before main content */
+    }
+
+    .main-layout {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .left-panel {
+        flex-basis: 100%; /* Takes full width */
+        padding: 30px;
+        min-height: auto;
+        order: 1; /* Display after helix background */
+    }
+
+    .left-panel h1 {
+        font-size: 3rem;
+    }
+
+    .right-panel-spacer {
+        display: none; /* No need for spacer */
+    }
+
+    .extra-content {
+        width: 100%; /* Takes full width */
+        padding: 30px;
+        background: #F8F7F2;
+        order: 2; /* Display after left panel */
+    }
+
+    .info-cards {
+        grid-template-columns: 1fr; /* Stack cards */
+    }
+
+    #dna-helix-structure {
+        height: var(--helix-visual-height, 500px); /* Adjust height if needed */
+    }
+
+    .rice-plant {
+        display: none; /* Hide decorative plants */
+    }
+
+    .genomics-grid {
+        opacity: 0.1; /* Make grid fainter */
+    }
+
+    /* Hide SVG vines on mobile */
+    .cta-button .vine {
+        display: none;
+    }
+}
