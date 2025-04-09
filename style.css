@@ -473,6 +473,18 @@ nav ul li a.active::after {
 }
 
 /* About Page - Team Grid Styles */
+
+.team-name-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color from the parent */
+    display: block; /* Make the entire card clickable */
+    transition: color 0.3s ease;
+}
+
+.team-name-link:hover {
+    color: #1E6042; /* Example: Change color on hover */
+}
+
 .team-grid {
     display: grid;
     /* Adjust columns for responsiveness */
@@ -485,6 +497,7 @@ nav ul li a.active::after {
      /* Inherits .card styles */
      text-align: center; /* Center content within the card */
      padding: 30px 20px; /* Adjust padding */
+     /*cursor: pointer; /* Optional: Add a pointer cursor on hover */
 }
 
 .team-photo {
