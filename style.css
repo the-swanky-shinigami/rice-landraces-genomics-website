@@ -602,11 +602,14 @@ body.page-contact .base-pair { background-color: #B39DDB; }
 /* Responsive Design */
 @media (max-width: 992px) {
     .fixed-helix-background {
+        display: none; /* Hide helix on smaller screens */
+        /*
         width: 100%;
         height: 40vh;
-        position: relative; /* Unfix for mobile */
+        position: relative; /* Unfix for mobile 
         background: #F8F7F2;
-        order: -1; /* Display before main content */
+        order: -1; /* Display before main content 
+        */
     }
 
     .main-layout {
