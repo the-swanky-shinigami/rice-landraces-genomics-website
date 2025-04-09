@@ -5,6 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // *** ADD THIS LINE ***
+    //console.log("DOM Content Loaded. Setting up Read More listeners...");
+
+    const readMoreLinks = document.querySelectorAll('.blog-post .read-more');
+
+    // *** ADD THIS CHECK ***
+    //console.log("Found read more links:", readMoreLinks.length);
+    readMoreLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            //console.log('Read More clicked');
+            const blogPost = this.parentNode;
+            const expandableContent = blogPost.querySelector('.expandable-content');
+    
+            if (blogPost.classList.contains('expanded')) {
+                blogPost.classList.remove('expanded');
+                this.textContent = 'Read More';
+            } else {
+                blogPost.classList.add('expanded');
+                this.textContent = 'Read Less';
+            }
+        });
+    });
+
     // --- Configuration ---
     const rungCount = 150;
     const helixVisualHeight = 3000;
@@ -102,4 +126,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial helix rotation
     handleHelixRotation(window.scrollY || document.documentElement.scrollTop);
+
 });

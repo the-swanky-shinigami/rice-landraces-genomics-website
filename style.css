@@ -399,6 +399,38 @@ nav ul li a.active::after {
 .content-section {
     margin-bottom: 40px; /* Space between logical sections */
 }
+/*.blog-post*/ 
+
+.blog-posts-container {
+    /* Adjust max-height based on how many posts you want visible (e.g., 2-3 cards high) */
+    /* Try values like 60vh, 70vh, or fixed pixels like 650px, 750px */
+    max-height: 700px;
+    overflow-y: auto; /* Enable vertical scrolling ONLY when needed */
+    padding-right: 15px; /* Add some padding to prevent content touching edge if scrollbar space is removed */
+    padding-bottom: 10px; /* Ensure last card has some space at the bottom */
+
+    /* --- Hide Scrollbar --- */
+    /* Firefox */
+    scrollbar-width: none;
+    /* IE / Edge (Older) */
+    -ms-overflow-style: none;
+}
+
+/* WebKit Browsers (Chrome, Safari, Edge new) */
+.blog-posts-container::-webkit-scrollbar {
+    display: none; /* Completely hide scrollbar */
+    /* Alternatively, make it zero width: */
+    /* width: 0;
+       height: 0; */
+}
+
+.expandable-content {
+    display: none; /* Initially hide the expanded content */
+}
+
+.blog-post.expanded .expandable-content {
+    display: inline; /* Show the expanded content when the parent is expanded */
+}
 
 
 /* Explore Page Specific Styles */
@@ -413,6 +445,17 @@ nav ul li a.active::after {
     margin-bottom: 10px;
 }
 
+.ellipsis {
+    display: inline; /* Show the ellipsis by default */
+    /* Optional: Adjust styling if needed */
+    /* font-weight: bold; */
+    /* margin-left: 2px; */
+}
+
+.blog-post.expanded .ellipsis {
+    display: none; /* Hide the ellipsis when the blog post IS expanded */
+}
+
 .read-more {
     display: inline-block;
     margin-top: 10px;
@@ -420,6 +463,9 @@ nav ul li a.active::after {
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
+
+    position: relative; /* Allows z-index to work */
+    z-index: 2;
 }
 
 .read-more:hover {
