@@ -1,4 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Logic for choosing random colors for the helix in the references page //
+    const referencesPage = document.getElementById('references-page');
+    if (referencesPage) 
+    {
+        function getRandomColor() {
+            // Generate a random hex color
+            return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+
+        function getComplimentaryColors(hexColor) {
+            // Convert hex to RGB
+            const r = parseInt(hexColor.slice(1, 3), 16);
+            const g = parseInt(hexColor.slice(3, 5), 16);
+            const b = parseInt(hexColor.slice(5, 7), 16);
+
+            // Calculate the inverse of each component
+            const rComp = 255 - r;
+            const gComp = 255 - g;
+            const bComp = 255 - b;
+
+            // Convert back to hex
+            const complimentaryHex = `#${rComp.toString(16).padStart(2, '0')}${gComp.toString(16).padStart(2, '0')}${bComp.toString(16).padStart(2, '0')}`;
+
+            // Generate a slightly darker or lighter shade of one of the colors (you can adjust this logic)
+            const baseColor = [r, g, b];
+            const randomIndex = Math.floor(Math.random() * 3);
+            const adjustment = Math.random() > 0.5 ? 20 : -20; // Adjust brightness
+
+            const adjustedColor = baseColor.map((val, index) => {
+                if (index === randomIndex) {
+                return Math.max(0, Math.min(255, val + adjustment));
+                }
+                return val;
+            });
+
+            const adjustedHex = `#${adjustedColor[0].toString(16).padStart(2, '0')}${adjustedColor[1].toString(16).padStart(2, '0')}${adjustedColor[2].toString(16).padStart(2, '0')}`;
+
+            return [hexColor, complimentaryHex, adjustedHex];
+        }
+
+        // Generate a random base color
+        const randomBaseColor = getRandomColor();
+        const colorSwatch = getComplimentaryColors(randomBaseColor);
+
+        // Apply the random colors using inline styles
+        const style = document.createElement('style');
+        style.textContent = `
+        body.page-references .strand-point { background-color: ${colorSwatch[0]}; }
+        body.page-references .strand-point.strand-b { background-color: ${colorSwatch[1]}aa; }
+        body.page-references .base-pair { background-color: ${colorSwatch[2]}; }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // END OF LOGIC //   
+    
+    
     const helixStructure = document.getElementById('dna-helix-structure');
     if (!helixStructure) {
         console.error("Helix structure element not found!");

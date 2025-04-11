@@ -211,6 +211,46 @@ nav ul li a:hover::after {
     margin-bottom: 40px;
 }
 
+.page-explore .left-panel h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, #1E6042 0%, #80CBC4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;/* Slightly smaller for Explore page */
+}
+
+.page-about .left-panel h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, #1E6042 30%, #F9A825 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;/* Slightly smaller for Explore page */
+}
+
+.page-references .left-panel h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, #1E6042 10%, #eac2b1 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;/* Slightly smaller for Explore page */
+}
+
+.page-contact .left-panel h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(45deg, #1E6042 0%, #5E35B1 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;/* Slightly smaller for Explore page */
+}
+
 /* === SVG Vine Button Effect === */
 .cta-button.vine-button { /* Added .vine-button class for specificity */
     display: inline-block; /* Allows width/height to influence layout */
@@ -432,6 +472,18 @@ nav ul li a.active::after {
     display: inline; /* Show the expanded content when the parent is expanded */
 }
 
+.blog-post-image {
+    display: inline-block; /* Make it take its own line */
+    max-width: 100%; /* Ensure image doesn't overflow its container */
+    height: auto;   /* Maintain aspect ratio */
+    margin-top: 10px;    /* Add some space above the image */
+    margin-bottom: 15px;
+    margin-right: 2%; /* Add space between image and text below */
+    border-radius: 6px;  /* Optional: Slightly rounded corners */
+    /* Optional: Add a subtle shadow like the card */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
 
 /* Explore Page Specific Styles */
 .blog-post, .publication-entry {
@@ -547,6 +599,69 @@ nav ul li a.active::after {
     text-decoration: underline;
 }
 
+
+/* === Styling for References Page Content === */
+.subsection {
+    margin-top: 25px; /* Space above subsection heading */
+    margin-bottom: 20px; /* Space below subsection list */
+    padding-left: 15px; /* Indent subsections slightly */
+    border-left: 3px solid rgba(30, 96, 66, 0.15); /* Subtle left border */
+}
+
+.subsection h3 {
+    font-size: 1.5rem; /* Subsection heading size */
+    color: #1E6042;
+    margin-bottom: 15px;
+    /* border-bottom: 1px solid rgba(30, 96, 66, 0.1); */
+    /* padding-bottom: 5px; */
+}
+
+.reference-list {
+    list-style: none; /* Remove default bullets */
+    padding-left: 10px; /* Indent list items */
+}
+
+.reference-list li {
+    margin-bottom: 15px; /* Space between list items */
+    padding-left: 20px; /* Space for custom marker */
+    position: relative;
+    font-size: 0.95rem; /* Slightly smaller font for references */
+    line-height: 1.5;
+}
+
+/* Custom list marker */
+.reference-list li::before {
+    content: '»'; /* Or '•', '➤', etc. */
+    position: absolute;
+    left: 0;
+    top: 0px;
+    color: #1E6042; /* Theme color */
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.reference-list li strong { /* Style dataset names */
+    font-weight: 600;
+    color: #333;
+}
+
+.reference-list li a {
+    color: #2962FF; /* Link color from theme */
+    text-decoration: none;
+    font-weight: 500;
+    word-break: break-all; /* Allow long links to wrap */
+}
+
+.reference-list li a:hover {
+    text-decoration: underline;
+    color: #1E88E5;
+}
+
+/* Specific adjustments for dataset links if needed */
+#ref-datasets .reference-list li a {
+    margin-left: 5px; /* Add space before links in dataset list */
+}
+
 /* Contact Page Specific Styles */
 .contact-person {
     margin-bottom: 30px;
@@ -609,7 +724,11 @@ body.page-contact .strand-point { background-color: #5E35B1; }
 body.page-contact .strand-point.strand-b { background-color: #4527A0; } 
 body.page-contact .base-pair { background-color: #B39DDB; } 
 
+/* For Reference page we use a script logic in script.js to change color randomly */
 
+/* body.page-references .strand-point { background-color: #ef5513; } 
+/* body.page-references .strand-point.strand-b { background-color: #c82a12aa; } 
+/* body.page-references .base-pair { background-color: #cf8643; }
 
 
 /* Responsive Design */
@@ -672,4 +791,64 @@ body.page-contact .base-pair { background-color: #B39DDB; }
     .cta-button .vine {
         display: none;
     }
+
+    /* === Mobile Adjustments for References === */
+    .subsection {
+        padding-left: 10px; /* Reduce indent */
+        border-left-width: 2px; /* Thinner border */
+    }
+     .subsection h3 {
+        font-size: 1.3rem; /* Smaller subsection heading */
+    }
+    .reference-list {
+        padding-left: 5px; /* Reduce indent */
+    }
+     .reference-list li {
+        font-size: 0.9rem;
+        padding-left: 18px; /* Adjust marker position */
+        margin-bottom: 12px;
+    }
+    .reference-list li::before {
+       font-size: 1rem;
+    }
+}
+
+
+/* Footer Styles */
+
+footer {
+    position: fixed; /* Or absolute */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    color: #555;
+    text-align: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+    border-top: 1px solid #eee;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.5s ease-in-out; /* Smooth fade-in effect */
+    z-index: 10;
+}
+
+footer:hover {
+    opacity: 1; /* Fade into view on hover */
+}
+
+.footer-content {
+    /* ... (optional styling) ... */
+}
+
+.designed-by {
+    margin-bottom: 5px;
+}
+
+.seed-icon {
+    color: #8BC34A;
+    font-size: 1.1em;
+}
+
+.copyright {
+    font-size: 0.8em;
 }
